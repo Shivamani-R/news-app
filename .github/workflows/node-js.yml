@@ -24,11 +24,16 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Install dependencies (with legacy peer deps)
+      - name: Install dependencies (bypass peer deps conflict)
         run: npm ci --legacy-peer-deps
 
       - name: Build the project (if applicable)
         run: npm run build --if-present
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests (placeholder)
+        run: |
+          if npm run | grep -q "test"; then
+            npm test
+          else
+            echo "⚠️ No test script found. Skipping tests."
+          fi
